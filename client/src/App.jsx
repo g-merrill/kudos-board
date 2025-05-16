@@ -8,7 +8,7 @@ function App() {
   const [count, setCount] = useState(0)
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch('http://localhost:5000/tasks')
+      const res = await fetch('http://localhost:3000/tasks')
       const data = await res.json()
       console.log(data)
     }

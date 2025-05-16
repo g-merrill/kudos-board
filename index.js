@@ -32,21 +32,7 @@ app.get("/", (req, res) => {
   `)
 })
 
-app.get('/tasks', (req, res) => {
-	res.json(tasks)
-})
-
-app.get('/tasks/:taskId', (req, res) => {
-	const taskId = parseInt(req.params.taskId)
-	const task = tasks.find(task => task.id === taskId)
-
-	if (task) {
-    	res.json(task)
-	} else {
-    	res.status(404).send('Task not found')
-	}
-})
-
+// CREATE
 app.post('/tasks', (req, res) => {
 	const { description, completed } = req.body
 
@@ -60,7 +46,36 @@ app.post('/tasks', (req, res) => {
 	res.status(201).json(newTask)
 })
 
+// READ ALL
+app.get('/tasks', (req, res) => {
+	res.json(tasks)
+})
+
+// READ ONE
+app.get('/tasks/:taskId', (req, res) => {
+	const taskId = parseInt(req.params.taskId)
+	const task = tasks.find(task => task.id === taskId)
+
+	if (task) {
+    	res.json(task)
+	} else {
+    	res.status(404).send('Task not found')
+	}
+})
+
 // UPDATE
+app.put('/tasks/:taskId', (req, res) => {
+  const { taskId } = req.params
+  const taskIndex = tasks.findIndex(task => task.id === parseInt(taskId))
+
+  if (taskIndex !== -1) {
+    const updatedTaskInfo = req.body
+    tasks[taskIndex] = { ...tasks[taskIndex], ...updatedTaskInfo }
+    res.json(tasks[taskIndex])
+  } else {
+    res.status(404).send('Task not found')
+  }
+})
 
 // DELETE
 
