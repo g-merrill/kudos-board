@@ -2,9 +2,20 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import { useEffect } from 'react'
 
 function App() {
   const [count, setCount] = useState(0)
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch('http://localhost:5000/tasks')
+      const data = await res.json()
+      console.log(data)
+    }
+
+    fetchData()
+  }, [])
+  
 
   return (
     <>
