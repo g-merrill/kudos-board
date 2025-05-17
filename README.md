@@ -10,14 +10,14 @@ Deployed Application (**required**): [Kudos Board Deployed Site](ADD_LINK_HERE)
 
 ##### Home Page
 
-- [x] **Home Page Display**
+- [X] **Home Page Display**
   - [ ] Home page includes the following features:
     - [ ] Header
     - [ ] Banner
     - [ ] Search bar
     - [ ] List of boards
     - [ ] Footer
-- [x] **Display Boards**
+- [X] **Display Boards**
   - [ ] Users can view a list of all boards in a grid view on the home page.
   - [ ] For each board displayed, users can see:
     - [ ] An image/gif
@@ -30,7 +30,7 @@ Deployed Application (**required**): [Kudos Board Deployed Site](ADD_LINK_HERE)
     - [ ] Thank you
     - [ ] Inspiration
   - [ ] When a category is clicked, boards matching the specified category are displayed.
-- [x] **Search Functionality**
+- [X] **Search Functionality**
   - [ ] Users can use a search bar to search for boards by title on the home page.
   - [ ] The search bar should include:
     - [ ] Text input field
@@ -41,9 +41,9 @@ Deployed Application (**required**): [Kudos Board Deployed Site](ADD_LINK_HERE)
     - [ ] Clicks the Submit/Search button 
   - [ ] User can delete all text from the text input field. 
   - [ ] When all text is cleared from the text input field, all boards are displayed in a grid view
-- [x] **View Board** 
+- [X] **View Board** 
   - [ ] Users can click on a board in the grid view to navigate to a new page containing that board's details.
-- [x] **Add New Board**
+- [X] **Add New Board**
   - [ ] Users can create a new board on the home page.
   - [ ] When creating a new board, users can specify the:
     - [ ] Title (required)
@@ -51,7 +51,7 @@ Deployed Application (**required**): [Kudos Board Deployed Site](ADD_LINK_HERE)
     - [ ] Author (optional)
   - [ ] Items listed as required above must have a value to succesffuly create a new board.
   - [ ] When the board is successfully created, it appears in the grid of boards. 
-- [x] **Delete Board**
+- [X] **Delete Board**
   - [ ] User can delete boards on the home page. 
   - [ ] When the board is deleted, the board disappears from the grid of boards. 
 
@@ -64,7 +64,7 @@ Deployed Application (**required**): [Kudos Board Deployed Site](ADD_LINK_HERE)
     - [ ] Gif 
     - [ ] Number of upvotes
     - [ ] Delete button
-- [x] **Add New Card**
+- [X] **Add New Card**
   - [ ] Users can make a new card associated with the current board. 
   - [ ] To successfully create a new card, users must specify the following:
     - [ ] Text message (required).
@@ -76,7 +76,7 @@ Deployed Application (**required**): [Kudos Board Deployed Site](ADD_LINK_HERE)
   - [ ] Update the vote count on the card tile when a user clicks the upvote icon.
   - [ ] When the upvote icon is clicked the upvote count increases by 1. 
   - [ ] A user can upvote a card multiple times. 
-- [x] **Delete Card**
+- [X] **Delete Card**
   - [ ] Users can delete cards.
   - [ ] When the user clicks the delete button for a card, the card disappears from the grid of cards. 
 - [ ] **Deployment**
