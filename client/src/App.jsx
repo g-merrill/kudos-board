@@ -1,16 +1,14 @@
-import { useState } from "react"
-import reactLogo from "./assets/react.svg"
-import viteLogo from "/vite.svg"
+import { useState, useEffect } from "react"
 import "./App.css"
-import { useEffect } from "react"
 
 function App() {
-	const [count, setCount] = useState(0)
+	const [boards, setBoards] = useState([])
+
 	useEffect(() => {
 		const fetchData = async () => {
 			const res = await fetch("http://localhost:3000/boards")
-			const data = await res.json()
-			console.log(data)
+			const boardsData = await res.json()
+			setBoards([...boardsData])
 		}
 
 		fetchData()
@@ -28,8 +26,12 @@ function App() {
 		console.log("handleFilterSelect clicked for " + selectedFilter)
 	}
 
-	const handleDeleteBoard = () => {
-		console.log("handleDeleteBoard clicked")
+	const handleBoardSelect = (board_id) => {
+		console.log("handleBoardSelect clicked for board " + board_id)
+	}
+
+	const handleDeleteBoard = (board_id) => {
+		console.log("handleDeleteBoard clicked for board " + board_id)
 	}
 
 	const handleAddBoardOpen = () => {
@@ -91,38 +93,28 @@ function App() {
 				</div>
 			</section>
 			<section className="boards-list">
-				<div className="boards-list--card">
-					<div className="boards-list--card-main">
-						<a href={`/boards/${board_id}`}>
-							<img className="boards-list--board-img" />
-							<p className="boards-list--board-title">Board Title</p>
-						</a>
-					</div>
-					<div className="boards-list--card-footer">
+				{boards.map((board) => (
+					<div className="boards-list--card" key={board.id}>
 						<div
-							onClick={handleDeleteBoard}
-							className="boards-list--delete-board"
+							className="boards-list--card-main"
+							onClick={() => handleBoardSelect(board.id)}
 						>
-							Delete Board
+							<img className="boards-list--board-img" src={board.image} />
+							<p className="boards-list--board-title">{board.title}</p>
+							<p className="boards-list--board-author">
+								Created by: {board.author}
+							</p>
+						</div>
+						<div className="boards-list--card-footer">
+							<div
+								onClick={() => handleDeleteBoard(board.id)}
+								className="boards-list--delete-board"
+							>
+								Delete Board
+							</div>
 						</div>
 					</div>
-				</div>
-				<div className="boards-list--card">
-					<div className="boards-list--card-main">
-						<a href={`/boards/${board_id}`}>
-							<img className="boards-list--board-img" />
-							<p className="boards-list--board-title">Board Title</p>
-						</a>
-					</div>
-					<div className="boards-list--card-footer">
-						<div
-							onClick={handleDeleteBoard}
-							className="boards-list--delete-board"
-						>
-							Delete Board
-						</div>
-					</div>
-				</div>
+				))}
 				<div className="boards-list--add-board">
 					<div
 						className="boards-list--add-board-btn"
@@ -151,7 +143,7 @@ function App() {
 							type="text"
 							placeholder="Author"
 						/>
-            <div onClick={handleAddBoardSubmit}>Submit</div>
+						<div onClick={handleAddBoardSubmit}>Submit</div>
 					</div>
 				</div>
 			</section>
