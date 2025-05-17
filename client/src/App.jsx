@@ -16,25 +16,33 @@ function App() {
 		fetchData()
 	}, [])
 
-  const handleSearchSubmit = () => {
-    console.log('handleSearchSubmit clicked')
-  }
+	const handleSearchSubmit = () => {
+		console.log("handleSearchSubmit clicked")
+	}
 
-  const handleSearchClear = () => {
-    console.log('handleSearchClear clicked')
-  }
+	const handleSearchClear = () => {
+		console.log("handleSearchClear clicked")
+	}
 
-  const handleDeleteBoard = () => {
-    console.log('handleDeleteBoard clicked')
-  }
+	const handleFilterSelect = (selectedFilter) => {
+		console.log("handleFilterSelect clicked for " + selectedFilter)
+	}
 
-  const handleAddBoard = () => {
-    console.log('handleAddBoard clicked')
-  }
+	const handleDeleteBoard = () => {
+		console.log("handleDeleteBoard clicked")
+	}
+
+	const handleAddBoardOpen = () => {
+		console.log("handleAddBoardOpen clicked")
+	}
+
+	const handleAddBoardSubmit = () => {
+		console.log("handleAddBoardSubmit clicked")
+	}
 
 	return (
 		<>
-			<header className="header">Header</header>
+			<header className="header">KUDOS BOARDS</header>
 			<section className="banner">
 				<div className="searchbar">
 					<input
@@ -49,10 +57,47 @@ function App() {
 						Clear
 					</div>
 				</div>
+				<div className="filters">
+					<div
+						className="filters--btn"
+						onClick={() => handleFilterSelect("all")}
+					>
+						All
+					</div>
+					<div
+						className="filters--btn"
+						onClick={() => handleFilterSelect("recent")}
+					>
+						Recent
+					</div>
+					<div
+						className="filters--btn"
+						onClick={() => handleFilterSelect("celebration")}
+					>
+						Celebration
+					</div>
+					<div
+						className="filters--btn"
+						onClick={() => handleFilterSelect("thanks")}
+					>
+						Thank you
+					</div>
+					<div
+						className="filters--btn"
+						onClick={() => handleFilterSelect("inspiration")}
+					>
+						Inspiration
+					</div>
+				</div>
 			</section>
 			<section className="boards-list">
 				<div className="boards-list--card">
-					<div className="boards-list--card-main"></div>
+					<div className="boards-list--card-main">
+						<a href={`/boards/${board_id}`}>
+							<img className="boards-list--board-img" />
+							<p className="boards-list--board-title">Board Title</p>
+						</a>
+					</div>
 					<div className="boards-list--card-footer">
 						<div
 							onClick={handleDeleteBoard}
@@ -63,7 +108,12 @@ function App() {
 					</div>
 				</div>
 				<div className="boards-list--card">
-					<div className="boards-list--card-main"></div>
+					<div className="boards-list--card-main">
+						<a href={`/boards/${board_id}`}>
+							<img className="boards-list--board-img" />
+							<p className="boards-list--board-title">Board Title</p>
+						</a>
+					</div>
 					<div className="boards-list--card-footer">
 						<div
 							onClick={handleDeleteBoard}
@@ -74,12 +124,38 @@ function App() {
 					</div>
 				</div>
 				<div className="boards-list--add-board">
-					<div className="boards-list--add-board-btn" onClick={handleAddBoard}>
+					<div
+						className="boards-list--add-board-btn"
+						onClick={handleAddBoardOpen}
+					>
 						Add Board
+					</div>
+					<div className="boards-list--add-board-form">
+						<input
+							className="boards-list--add-board-form-title"
+							type="text"
+							placeholder="Title"
+						/>
+						<input
+							className="boards-list--add-board-form-category"
+							type="text"
+							placeholder="Category"
+						/>
+						<input
+							className="boards-list--add-board-form-image"
+							type="text"
+							placeholder="Image"
+						/>
+						<input
+							className="boards-list--add-board-form-author"
+							type="text"
+							placeholder="Author"
+						/>
+            <div onClick={handleAddBoardSubmit}>Submit</div>
 					</div>
 				</div>
 			</section>
-			<footer className="footer">Footer</footer>
+			<footer className="footer">© Kudos Boards 2025</footer>
 		</>
 	)
 }
