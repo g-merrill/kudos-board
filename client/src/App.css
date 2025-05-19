@@ -158,6 +158,15 @@ header {
   align-items: center;
 }
 
+.form-active {
+  display: flex;
+  flex-direction: column;
+}
+
+.hidden {
+  display: none;
+}
+
 footer {
   justify-content: center;
   padding: 2rem 0;
