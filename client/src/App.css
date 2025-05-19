@@ -1,3 +1,80 @@
+/* Vars  */
+:root {
+  --color-primary: white;
+  --color-secondary: rgb(0, 0, 80);
+}
+
+.text-input {
+  height: 2.25em;
+  border-radius: 6px;
+  border: 0.5px solid lightgrey;
+  min-width: 200px;
+  padding-right: 40px;
+  padding-left: 10px;
+}
+
+.btn {
+  appearance: none;
+  background-color: #FAFBFC;
+  border: 1px solid rgba(27, 31, 35, 0.15);
+  border-radius: 6px;
+  box-sizing: border-box;
+  color: #24292E;
+  cursor: pointer;
+  display: inline-block;
+  font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  list-style: none;
+  padding: 6px 16px;
+  position: relative;
+  transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  white-space: nowrap;
+  word-wrap: break-word;
+}
+
+.btn:hover {
+  background-color: #F3F4F6;
+  text-decoration: none;
+  transition-duration: 0.1s;
+}
+
+.btn:disabled {
+  background-color: #FAFBFC;
+  border-color: rgba(27, 31, 35, 0.15);
+  color: #959DA5;
+  cursor: default;
+}
+
+.btn:active {
+  background-color: #EDEFF2;
+  box-shadow: rgba(225, 228, 232, 0.2) 0 1px 0 inset;
+  transition: none 0s;
+}
+
+.btn:focus {
+  outline: 1px transparent;
+}
+
+.btn:before {
+  display: none;
+}
+
+.btn:-webkit-details-marker {
+  display: none;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
 #root {
   width: 100vw;
 }
@@ -6,4 +83,56 @@ header, section, footer {
   display: flex;
   width: 100%;
   border: 1px solid black;
+}
+
+header {
+  justify-content: center;
+}
+
+.site-title {
+  color: var(--color-secondary);
+  font-size: 1.5em;
+  letter-spacing: 0.4em;
+}
+
+.site-title--emphasis {
+  background: var(--color-secondary);
+  color: var(--color-primary);
+  padding: 0.1em 0 0.1em 0.4em;
+  margin-right: 0.2em;
+  border-radius: 50%;
+}
+
+.banner {
+  flex-direction: column;
+  align-items: center;
+}
+
+.searchbar {
+  display: flex;
+  align-items: center;
+}
+
+.filters {
+  display: flex;
+}
+
+.filters--btn:hover {
+  border-color: var(--color-secondary);
+}
+
+.filters--btn-active {
+  background: var(--color-secondary);
+  color: var(--color-primary);
+  border-color: var(--color-secondary);
+}
+
+.filters--btn-active:hover {
+  background: var(--color-secondary);
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+footer {
+  justify-content: center;
 }
