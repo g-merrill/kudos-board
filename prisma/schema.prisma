@@ -14,9 +14,30 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  email     String   @unique
-  name      String?
+// model User {
+//   id          Int      @id @default(autoincrement())
+//   createdAt   DateTime @default(now())
+//   email       String   @unique
+//   name        String?
+// }
+
+model Board {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  image       String
+  title       String
+  category    String
+  author      String   @default("Unknown")
+  cards       Card[]
+}
+
+model Card {
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  board       Board     @relation(fields: [boardId], references: [id])
+  boardId     Int
+  message     String
+  author      String    @default("Unknown")
+  upvotes     Int       @default(0)
+  gif         String
 }

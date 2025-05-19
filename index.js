@@ -11,48 +11,46 @@ const prisma = new PrismaClient()
 app.use(cors())
 app.use(express.json())
 
-
 let cards = [
 	{
-		id: 1,
-		board_id: 1,
+		boardId: 1,
 		message: "Card 1",
 		author: "Me",
-		upvoted: true,
+		upvotes: 5,
 		gif: "https://giphy.com/gifs/thepmc-dg0hVakNxI0LaIQDQm",
 	},
 	{
-		id: 2,
-		board_id: 2,
+		boardId: 2,
 		message: "Card 2",
-		author: "Me",
-		upvoted: false,
+		upvotes: 4,
 		gif: "https://giphy.com/gifs/thepmc-dg0hVakNxI0LaIQDQm",
 	},
 	{
-		id: 3,
-		board_id: 2,
+		boardId: 2,
 		message: "Card 3",
 		author: "You",
-		upvoted: true,
+		upvotes: 3,
 		gif: "https://giphy.com/gifs/thepmc-dg0hVakNxI0LaIQDQm",
 	},
 ]
 
 let boards = [
 	{
-		id: 1,
 		title: "Finish coding assignment",
 		category: "celebration",
 		image: "https://picsum.photos/200/300",
 		author: "Me",
 	},
 	{
-		id: 2,
 		title: "Read a chapter of a book",
 		category: "inspiration",
 		image: "https://picsum.photos/200/300",
 		author: "You",
+	},
+	{
+		title: "Read another chapter of the same book",
+		category: "thanks",
+		image: "https://picsum.photos/200/300",
 	},
 ]
 
@@ -62,49 +60,39 @@ app.listen(PORT, () => {
 })
 
 app.get("/", (req, res) => {
-	res.send(`
-    <html>
-      <head>
-        <title>Adopt-a-Pet</title>
-      </head>
-      <body>
-        <h1>Hello, World!</h1>
-        <p>Welcome to my server.</p>
-      </body>
-    </html>
-  `)
+	res.status(404).send("Page not found")
 })
 
 // CREATE
 app.post("/boards", async (req, res) => {
-	const { title, category, image, author = "No author" } = req.body
+	const { title, category, image, author = "Unknown" } = req.body
 
-	const newBoard = {
-		id: boards.length + 1,
-		title,
-		category,
-		image,
-		author,
-	}
+	// post to db
+	const board = await prisma.board.create({
+		data: {
+			title,
+			category,
+			image,
+			author,
+		},
+	})
 
-  // post to db
-  // await prisma.board.create({
-	// 	data: newBoard,
-	// })
-
-	boards.push(newBoard)
-	res.status(201).json(newBoard)
+	res.status(201).json(board)
 })
 
 // READ ALL
-app.get("/boards", (req, res) => {
+app.get("/boards", async (req, res) => {
+	const boards = await prisma.board.findMany()
 	res.json(boards)
 })
 
 // READ ONE
-app.get("/boards/:boardId", (req, res) => {
-	const boardId = parseInt(req.params.boardId)
-	const board = boards.find((board) => board.id === boardId)
+app.get("/boards/:boardId", async (req, res) => {
+	const board = await prisma.board.findUnique({
+		where: {
+			id: parseInt(req.params.boardId),
+		},
+	})
 
 	if (board) {
 		res.json(board)
@@ -114,63 +102,77 @@ app.get("/boards/:boardId", (req, res) => {
 })
 
 // UPDATE
-app.put("/boards/:boardId", (req, res) => {
-	const { boardId } = req.params
-	const boardIndex = boards.findIndex((board) => board.id === parseInt(boardId))
+app.put("/boards/:boardId", async (req, res) => {
+	const board = await prisma.board.update({
+		where: {
+			id: parseInt(req.params.boardId),
+		},
+		data: {
+			...req.body,
+		},
+	})
 
-	if (boardIndex !== -1) {
-		const updatedBoardInfo = req.body
-		boards[boardIndex] = { ...boards[boardIndex], ...updatedBoardInfo }
-		res.json(boards[boardIndex])
+	if (board) {
+		res.json(board)
 	} else {
-		res.status(404).send("Board not found")
+		res.status(422).send("Board not updated")
 	}
 })
 
 // DELETE
-app.delete("/boards/:boardId", (req, res) => {
-	const { boardId } = req.params
-	const initialLength = boards.length
-	boards = boards.filter((board) => board.id !== parseInt(boardId))
+app.delete("/boards/:boardId", async (req, res) => {
+	const boardId = parseInt(req.params.boardId)
+	const deleteCards = prisma.card.deleteMany({
+		where: {
+			boardId,
+		},
+	})
 
-	if (boards.length < initialLength) {
-		res.status(204).send()
+	const deleteBoard = prisma.board.delete({
+		where: {
+			id: boardId,
+		},
+	})
+
+	const transaction = await prisma.$transaction([deleteCards, deleteBoard])
+
+	if (transaction) {
+		res.json(transaction)
 	} else {
-		res.status(404).send("Board not found")
+		res.status(422).send("Board not deleted")
 	}
 })
 
 // CREATE
 app.post("/cards", async (req, res) => {
-	const { message, board_id, author = "No author", upvoted, gif } = req.body
+	const { message, boardId, author = "Unknown", gif } = req.body
 
-	const newCard = {
-		id: cards.length + 1,
-		message,
-		board_id,
-		author,
-		upvoted,
-		gif,
-	}
+	// post to db
+	const card = await prisma.card.create({
+		data: {
+			message,
+			boardId,
+			author,
+			gif,
+		},
+	})
 
-  // post to db
-  // await prisma.card.create({
-	// 	data: newCard,
-	// })
-
-	cards.push(newCard)
-	res.status(201).json(newCard)
+	res.status(201).json(card)
 })
 
 // READ ALL
-app.get("/cards", (req, res) => {
+app.get("/cards", async (req, res) => {
+	const cards = await prisma.card.findMany()
 	res.json(cards)
 })
 
 // READ ONE
-app.get("/cards/:cardId", (req, res) => {
-	const cardId = parseInt(req.params.cardId)
-	const card = cards.find((card) => card.id === cardId)
+app.get("/cards/:cardId", async (req, res) => {
+	const card = await prisma.card.findUnique({
+		where: {
+			id: parseInt(req.params.cardId),
+		},
+	})
 
 	if (card) {
 		res.json(card)
@@ -180,46 +182,61 @@ app.get("/cards/:cardId", (req, res) => {
 })
 
 // UPDATE
-app.put("/cards/:cardId", (req, res) => {
-	const { cardId } = req.params
-	const cardIndex = cards.findIndex((card) => card.id === parseInt(cardId))
+app.put("/cards/:cardId", async (req, res) => {
+	const card = await prisma.card.update({
+		where: {
+			id: parseInt(req.params.cardId),
+		},
+		data: {
+			...req.body,
+		},
+	})
 
-	if (cardIndex !== -1) {
-		const updatedCardInfo = req.body
-		cards[cardIndex] = { ...cards[cardIndex], ...updatedCardInfo }
-		res.json(cards[cardIndex])
+	if (card) {
+		res.json(card)
 	} else {
-		res.status(404).send("Card not found")
+		res.status(422).send("Card not updated")
 	}
 })
 
 // DELETE
-app.delete("/cards/:cardId", (req, res) => {
-	const { cardId } = req.params
-	const initialLength = cards.length
-	cards = cards.filter((card) => card.id !== parseInt(cardId))
+app.delete("/cards/:cardId", async (req, res) => {
+	const card = await prisma.card.delete({
+		where: {
+			id: parseInt(req.params.cardId)
+		}
+	})
 
-	if (cards.length < initialLength) {
-		res.status(204).send()
+	if (card) {
+		res.json(card)
 	} else {
-		res.status(404).send("Card not found")
+		res.status(422).send("Card not deleted")
 	}
 })
 
-// const createAlice = async () => {
-// 	// run inside `async` function
+const findBoards = async () => {
+	const boards = await prisma.board.findMany()
+	return boards
+}
 
-// 	console.log(newUser)
+const findCards = async () => {
+	const cards = await prisma.card.findMany()
+	return cards
+}
+
+const logExistingData = async () => {
+	const boards = await findBoards()
+	console.log("Boards:")
+	console.log(boards)
+	const cards = await findCards()
+	console.log("Cards:")
+	console.log(cards)
+}
+
+logExistingData()
+
+// const clearExistingData = async () => {
+// 	await prisma.board.deleteMany()
+// 	await prisma.card.deleteMany()
 // }
-
-const findUsers = async () => {
-	const users = await prisma.user.findMany()
-	return users
-}
-
-const runAllFuncs = async () => {
-	const result = await findUsers()
-    console.log(result)
-}
-
-runAllFuncs()
+// clearExistingData()
