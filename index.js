@@ -1,16 +1,16 @@
 const cors = require("cors")
 const express = require("express")
 require("dotenv").config()
+const { PrismaClient } = require("./generated/prisma")
 
 const app = express()
+// // use `prisma` in your application to read and write data in your DB
+const prisma = new PrismaClient()
 
 // Enable CORS for all routes
 app.use(cors())
 app.use(express.json())
 
-const { PrismaClient } = require("./generated/prisma")
-const prisma = new PrismaClient()
-// // use `prisma` in your application to read and write data in your DB
 
 let cards = [
 	{
@@ -212,15 +212,14 @@ app.delete("/cards/:cardId", (req, res) => {
 // 	console.log(newUser)
 // }
 
-// const findUsers = async () => {
-// 	const users = await prisma.user.findMany()
-// 	return users
-// }
+const findUsers = async () => {
+	const users = await prisma.user.findMany()
+	return users
+}
 
-// const runAllFuncs = async () => {
-// 	await createAlice()
-// 	const result = await findUsers()
-//     console.log(result)
-// }
+const runAllFuncs = async () => {
+	const result = await findUsers()
+    console.log(result)
+}
 
-// runAllFuncs()
+runAllFuncs()
