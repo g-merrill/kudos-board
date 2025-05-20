@@ -10,7 +10,7 @@ function App() {
 	const [filterActive, setFilterActive] = useState("all")
 
 	const fetchFreshData = async () => {
-		const res = await fetch("http://localhost:3000/boards")
+		const res = await fetch(`${import.meta.env.VITE_DB_URL}/boards`)
 		const boardsData = await res.json()
 		setBoards([...boardsData])
 	}
@@ -43,7 +43,7 @@ function App() {
 	}
 
 	const handleDeleteBoard = async (board_id) => {
-		await fetch(`http://localhost:3000/boards/${board_id}`, {
+		await fetch(`${import.meta.env.VITE_DB_URL}/boards/${board_id}`, {
 			method: "DELETE",
 		})
 		console.log("handleDeleteBoard clicked for board " + board_id)
@@ -51,7 +51,7 @@ function App() {
 	}
 
 	const handleAddBoardSubmit = async ({ title, category, image, author }) => {
-		const res = await fetch("http://localhost:3000/boards", {
+		const res = await fetch(`${import.meta.env.VITE_DB_URL}/boards`, {
 			method: "POST",
 			body: JSON.stringify({ title, category, image, author }),
 			headers: {

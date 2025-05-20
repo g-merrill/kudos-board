@@ -22,10 +22,10 @@ const BoardPage = () => {
 	const [filterActive, setFilterActive] = useState("all")
 
 	const fetchFreshData = async () => {
-		const rawBoard = await fetch(`http://localhost:3000/boards/${boardId}`)
+		const rawBoard = await fetch(`${import.meta.env.VITE_DB_URL}/boards/${boardId}`)
 		const boardData = await rawBoard.json()
 		setBoard({ ...boardData })
-		const rawCards = await fetch(`http://localhost:3000/cards`)
+		const rawCards = await fetch(`${import.meta.env.VITE_DB_URL}/cards`)
 		const allCardsData = await rawCards.json()
 		const cards = allCardsData.filter((card) => card.boardId === boardId)
 		setCards([...cards])
@@ -50,7 +50,7 @@ const BoardPage = () => {
 	}
 
 	const handleDeleteCard = async (card_id) => {
-		await fetch(`http://localhost:3000/cards/${card_id}`, {
+		await fetch(`${import.meta.env.VITE_DB_URL}/cards/${card_id}`, {
 			method: "DELETE",
 		})
 		console.log("handleDeleteCard clicked for card " + card_id)
@@ -58,7 +58,7 @@ const BoardPage = () => {
 	}
 
 	const handleAddCardSubmit = async ({ message, gif, author }) => {
-		const res = await fetch("http://localhost:3000/cards", {
+		const res = await fetch(`${import.meta.env.VITE_DB_URL}/cards`, {
 			method: "POST",
 			body: JSON.stringify({ message, boardId, gif, author }),
 			headers: {
@@ -73,7 +73,7 @@ const BoardPage = () => {
 	const upvoteCard = async (cardId, upvotes) => {
 		console.log("upvoteCard clicked", upvotes)
 
-		const res = await fetch(`http://localhost:3000/cards/${cardId}`, {
+		const res = await fetch(`${import.meta.env.VITE_DB_URL}/cards/${cardId}`, {
 			method: "PUT",
 			body: JSON.stringify({ upvotes }),
 			headers: {

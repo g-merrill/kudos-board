@@ -136,8 +136,8 @@ Deployed Application (**required**): [Kudos Board Deployed Site](ADD_LINK_HERE)
 ### Walkthrough Video
 
 <div>
-    <a href="https://www.loom.com/share/f69a91ab3161432d9c4d30a68f65f156">
-      <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/f69a91ab3161432d9c4d30a68f65f156-bcc63e1f7dce1f03-full-play.gif">
+    <a href="https://www.loom.com/share/5d5fda688cfe41b998312b5cd9ecf83e">
+      <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/5d5fda688cfe41b998312b5cd9ecf83e-a6714c65a0d3c918-full-play.gif">
     </a>
   </div>
 
