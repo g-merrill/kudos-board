@@ -7,42 +7,60 @@ import Footer from "./Footer"
 
 function App() {
 	const [boards, setBoards] = useState([])
-	const [filterActive, setFilterActive] = useState('all')
+	const [filterActive, setFilterActive] = useState("all")
 
-	useEffect(() => {
-		const fetchData = async () => {
-			const res = await fetch("http://localhost:3000/boards")
-			const boardsData = await res.json()
-			setBoards([...boardsData])
-		}
-
-		fetchData()
-	}, [])
-
-	const handleSearchSubmit = () => {
-		console.log("handleSearchSubmit clicked")
+	const fetchFreshData = async () => {
+		const res = await fetch("http://localhost:3000/boards")
+		const boardsData = await res.json()
+		setBoards([...boardsData])
 	}
 
-	const handleFilterSelect = (selectedFilter) => {
-		console.log("handleFilterSelect clicked for " + selectedFilter)
-		// filter boards for new filter
+	useEffect(() => {
+		fetchFreshData()
+	}, [])
+
+	const handleSearchSubmit = (term) => {
+		const searchedBoards = boards.filter(board => board.title.includes(term))
+		setBoards(searchedBoards)
+	}
+
+	const handleSearchClear = (term) => {
+		fetchFreshData()
+	}
+
+	const handleFilterSelect = async (selectedFilter) => {
+		await fetchFreshData()
 		setFilterActive(selectedFilter)
+		if (selectedFilter === 'all') {
+			return
+		}
+		const filteredBoards = boards.filter(board => board.category === selectedFilter)
+		setBoards(filteredBoards)
 	}
 
 	const handleBoardSelect = (board_id) => {
 		console.log("handleBoardSelect clicked for board " + board_id)
 	}
 
-	const handleDeleteBoard = (board_id) => {
+	const handleDeleteBoard = async (board_id) => {
+		await fetch(`http://localhost:3000/boards/${board_id}`, {
+			method: "DELETE",
+		})
 		console.log("handleDeleteBoard clicked for board " + board_id)
+		fetchFreshData()
 	}
 
-	const handleAddBoardOpen = () => {
-		console.log("handleAddBoardOpen clicked")
-	}
-
-	const handleAddBoardSubmit = () => {
-		console.log("handleAddBoardSubmit clicked")
+	const handleAddBoardSubmit = async ({ title, category, image, author }) => {
+		const res = await fetch("http://localhost:3000/boards", {
+			method: "POST",
+			body: JSON.stringify({ title, category, image, author }),
+			headers: {
+				"Content-Type": "application/json",
+			},
+		})
+		const data = await res.json()
+		console.log(data);
+		fetchFreshData()
 	}
 
 	return (
@@ -50,6 +68,7 @@ function App() {
 			<Header />
 			<Banner
 				handleSearchSubmit={handleSearchSubmit}
+				handleSearchClear={handleSearchClear}
 				handleFilterSelect={handleFilterSelect}
 				filterActive={filterActive}
 			/>
@@ -57,7 +76,6 @@ function App() {
 				boards={boards}
 				handleBoardSelect={handleBoardSelect}
 				handleDeleteBoard={handleDeleteBoard}
-				handleAddBoardOpen={handleAddBoardOpen}
 				handleAddBoardSubmit={handleAddBoardSubmit}
 			/>
 			<Footer />

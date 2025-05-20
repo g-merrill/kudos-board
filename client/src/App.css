@@ -11,6 +11,7 @@
   min-width: 200px;
   padding-right: 40px;
   padding-left: 10px;
+  margin-bottom: 5px;
 }
 
 .btn {
@@ -80,6 +81,9 @@ body {
 }
 
 #root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 100vw;
 }
 
@@ -95,6 +99,7 @@ section {
 header {
   justify-content: center;
   background: var(--color-secondary);
+  padding: 2em 1em;
 }
 
 .site-title {
@@ -119,10 +124,23 @@ header {
 .searchbar {
   display: flex;
   align-items: center;
+  margin-bottom: 1rem;
+}
+
+.searchbar--input {
+  margin: 0;
+}
+
+.searchbar--submit-btn, .searchbar--clear-btn {
+  margin: 0 0.5em;
 }
 
 .filters {
   display: flex;
+}
+
+.filters--btn {
+  margin: 0 0.5em;
 }
 
 .filters--btn:hover {
@@ -143,6 +161,7 @@ header {
 
 .boards-list {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .boards-list--card {
@@ -150,12 +169,36 @@ header {
   flex-direction: column;
   align-items: center;
   margin: 1rem 2rem;
+  transition: all 0.3s ease;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  padding-bottom: 0.5em;
+}
+
+.boards-list--board-title {
+  margin-top: 0.2em;
+}
+
+.boards-list--card:hover {
+  transform: scale(1.05);
 }
 
 .boards-list--card-main {
   display: flex;
   flex-direction: column;
   align-items: center;
+  cursor: pointer;
+}
+
+.boards-list--add-board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 250px;
+}
+
+.boards-list--add-board-open-btn {
+  margin-bottom: 2em;
 }
 
 .form-active {
@@ -167,9 +210,23 @@ header {
   display: none;
 }
 
+.back-to-home-btn {
+  margin: 2em 1em;
+}
+
 footer {
   justify-content: center;
-  padding: 2rem 0;
+  padding: 2rem 1em;
   background: var(--color-secondary);
   color: var(--color-primary);
+}
+
+.boards-list--board-upvote-ctnr {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.boards-list--board-upvote {
+  margin-right: 1em;
 }

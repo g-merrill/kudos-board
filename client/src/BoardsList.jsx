@@ -1,17 +1,16 @@
 import AddBoard from "./AddBoard"
-import BoardCard from "./BoardCard"
+import BoardTile from "./BoardTile"
 
 const BoardsList = ({
 	boards,
 	handleBoardSelect,
 	handleDeleteBoard,
-	handleAddBoardOpen,
 	handleAddBoardSubmit,
 }) => {
 	return (
 		<section className="boards-list">
 			{boards.map((board) => (
-				<BoardCard
+				<BoardTile
                     key={board.id}
 					board={board}
 					handleBoardSelect={handleBoardSelect}
@@ -19,7 +18,6 @@ const BoardsList = ({
 				/>
 			))}
 			<AddBoard
-				handleAddBoardOpen={handleAddBoardOpen}
 				handleAddBoardSubmit={handleAddBoardSubmit}
 			/>
 		</section>

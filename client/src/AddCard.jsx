@@ -1,25 +1,22 @@
 import { useState } from "react"
 
-const AddBoard = ({ handleAddBoardSubmit }) => {
+const AddCard = ({ handleAddCardSubmit }) => {
 	const [formActive, setFormActive] = useState(false)
-	const [title, setTitle] = useState("")
-	const [category, setCategory] = useState("")
-	const [image, setImage] = useState("")
+	const [message, setMessage] = useState("")
+	const [gif, setGif] = useState("")
 	const [author, setAuthor] = useState("")
 
 	const handleSubmitPress = async (e) => {
         e.preventDefault()
-        if (title && category && image) {
-            await handleAddBoardSubmit({
-                title,
-                category,
-                image,
+        if (message && gif) {
+            await handleAddCardSubmit({
+                message,
+                gif,
                 author,
             })
             setFormActive(false)
-            setTitle('')
-            setCategory('')
-            setImage('')
+            setMessage('')
+            setGif('')
             setAuthor('')
         } else {
             return
@@ -31,7 +28,7 @@ const AddBoard = ({ handleAddBoardSubmit }) => {
 				className="btn boards-list--add-board-open-btn"
 				onClick={() => setFormActive(!formActive)}
 			>
-				Add Board
+				Add Card
 			</div>
 			<form
 				className={`boards-list--add-board-form${
@@ -42,31 +39,18 @@ const AddBoard = ({ handleAddBoardSubmit }) => {
 					className="text-input boards-list--add-board-form-title"
 					type="text"
 					placeholder="Title (required)"
-					name="title"
-					onChange={(e) => setTitle(e.target.value)}
-					value={title}
+					name="message"
+					onChange={(e) => setMessage(e.target.value)}
+					value={message}
 					required
 				/>
-				<select
-					name="category"
-					className="text-input"
-					onChange={(e) => setCategory(e.target.value)}
-					value={category}
-					required
-				>
-					<option value="">Category (required)</option>
-					<option value="recent">Recent</option>
-					<option value="celebration">Celebration</option>
-					<option value="thanks">Thank You</option>
-					<option value="inspiration">Inspiration</option>
-				</select>
 				<input
 					className="text-input boards-list--add-board-form-image"
 					type="text"
-					placeholder="Image Url (required)"
-					name="image"
-					onChange={(e) => setImage(e.target.value)}
-					value={image}
+					placeholder="Gif from giphy.com (required)"
+					name="gif"
+					onChange={(e) => setGif(e.target.value)}
+					value={gif}
 					required
 				/>
 				<input
@@ -80,7 +64,7 @@ const AddBoard = ({ handleAddBoardSubmit }) => {
 				<input
                     type='button'
                     value={'Submit'}
-                    disabled={!title || !category || !image}
+                    disabled={!message || !gif || !gif.includes('giphy.com')}
 					className="btn boards-list--add-board-submit-btn"
 					onClick={handleSubmitPress}
 				/>
@@ -89,4 +73,4 @@ const AddBoard = ({ handleAddBoardSubmit }) => {
 	)
 }
 
-export default AddBoard
+export default AddCard

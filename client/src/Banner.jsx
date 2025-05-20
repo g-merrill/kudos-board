@@ -2,12 +2,18 @@ import { useState } from "react"
 
 const Banner = ({
 	handleSearchSubmit,
+    handleSearchClear,
 	handleFilterSelect,
     filterActive
 }) => {
 	const [searchTerm, setSearchTerm] = useState("")
 
 	const handleSearch = (e) => setSearchTerm(e.target.value)
+
+    const handleClear = () => {
+        handleSearchClear('')
+        setSearchTerm('')
+    }
 
 	return (
 		<section className="banner">
@@ -22,7 +28,7 @@ const Banner = ({
 				<div className="btn searchbar--submit-btn" onClick={() => handleSearchSubmit(searchTerm)}>
 					Search
 				</div>
-				<div className="btn searchbar--clear-btn" onClick={() => setSearchTerm('')}>
+				<div className="btn searchbar--clear-btn" onClick={handleClear}>
 					Clear
 				</div>
 			</div>
