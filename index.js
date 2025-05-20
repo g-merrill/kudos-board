@@ -11,49 +11,6 @@ const prisma = new PrismaClient()
 app.use(cors())
 app.use(express.json())
 
-let cards = [
-	{
-		boardId: 1,
-		message: "Card 1",
-		author: "Me",
-		upvotes: 5,
-		gif: "https://giphy.com/gifs/thepmc-dg0hVakNxI0LaIQDQm",
-	},
-	{
-		boardId: 2,
-		message: "Card 2",
-		upvotes: 4,
-		gif: "https://giphy.com/gifs/thepmc-dg0hVakNxI0LaIQDQm",
-	},
-	{
-		boardId: 2,
-		message: "Card 3",
-		author: "You",
-		upvotes: 3,
-		gif: "https://giphy.com/gifs/thepmc-dg0hVakNxI0LaIQDQm",
-	},
-]
-
-let boards = [
-	{
-		title: "Finish coding assignment",
-		category: "celebration",
-		image: "https://picsum.photos/200/300",
-		author: "Me",
-	},
-	{
-		title: "Read a chapter of a book",
-		category: "inspiration",
-		image: "https://picsum.photos/200/300",
-		author: "You",
-	},
-	{
-		title: "Read another chapter of the same book",
-		category: "thanks",
-		image: "https://picsum.photos/200/300",
-	},
-]
-
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
 	console.log(`Server is running on http://localhost:${PORT}`)
@@ -65,8 +22,12 @@ app.get("/", (req, res) => {
 
 // CREATE
 app.post("/boards", async (req, res) => {
-	const { title, category, image, author = "Unknown" } = req.body
+	console.log(req.body)
+	let { title, category, image, author } = req.body
 
+	if (!author) {
+		author = "Unknown"
+	}
 	// post to db
 	const board = await prisma.board.create({
 		data: {
@@ -145,8 +106,11 @@ app.delete("/boards/:boardId", async (req, res) => {
 
 // CREATE
 app.post("/cards", async (req, res) => {
-	const { message, boardId, author = "Unknown", gif } = req.body
+	let { message, boardId, gif, author } = req.body
 
+	if (!author) {
+		author = "Unknown"
+	}
 	// post to db
 	const card = await prisma.card.create({
 		data: {
@@ -203,8 +167,8 @@ app.put("/cards/:cardId", async (req, res) => {
 app.delete("/cards/:cardId", async (req, res) => {
 	const card = await prisma.card.delete({
 		where: {
-			id: parseInt(req.params.cardId)
-		}
+			id: parseInt(req.params.cardId),
+		},
 	})
 
 	if (card) {
@@ -236,7 +200,7 @@ const logExistingData = async () => {
 logExistingData()
 
 // const clearExistingData = async () => {
-// 	await prisma.board.deleteMany()
 // 	await prisma.card.deleteMany()
+// 	await prisma.board.deleteMany()
 // }
 // clearExistingData()
