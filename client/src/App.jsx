@@ -38,28 +38,21 @@ function App() {
 		setBoards(filteredBoards)
 	}
 
-	const handleBoardSelect = (board_id) => {
-		console.log("handleBoardSelect clicked for board " + board_id)
-	}
-
 	const handleDeleteBoard = async (board_id) => {
 		await fetch(`${import.meta.env.VITE_DB_URL}/boards/${board_id}`, {
 			method: "DELETE",
 		})
-		console.log("handleDeleteBoard clicked for board " + board_id)
 		fetchFreshData()
 	}
 
 	const handleAddBoardSubmit = async ({ title, category, image, author }) => {
-		const res = await fetch(`${import.meta.env.VITE_DB_URL}/boards`, {
+		await fetch(`${import.meta.env.VITE_DB_URL}/boards`, {
 			method: "POST",
 			body: JSON.stringify({ title, category, image, author }),
 			headers: {
 				"Content-Type": "application/json",
 			},
 		})
-		const data = await res.json()
-		console.log(data);
 		fetchFreshData()
 	}
 
@@ -74,7 +67,6 @@ function App() {
 			/>
 			<BoardsList
 				boards={boards}
-				handleBoardSelect={handleBoardSelect}
 				handleDeleteBoard={handleDeleteBoard}
 				handleAddBoardSubmit={handleAddBoardSubmit}
 			/>

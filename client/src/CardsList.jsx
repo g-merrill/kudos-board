@@ -3,7 +3,6 @@ import CardTile from "./CardTile"
 
 const CardsList = ({
 	cards,
-	handleCardSelect,
 	handleDeleteCard,
 	handleAddCardSubmit,
 	upvoteCard
@@ -14,7 +13,6 @@ const CardsList = ({
 				<CardTile
                     key={card.id}
 					card={card}
-					handleCardSelect={handleCardSelect}
 					handleDeleteCard={handleDeleteCard}
 					upvoteCard={upvoteCard}
 				/>

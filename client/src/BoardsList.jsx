@@ -3,7 +3,6 @@ import BoardTile from "./BoardTile"
 
 const BoardsList = ({
 	boards,
-	handleBoardSelect,
 	handleDeleteBoard,
 	handleAddBoardSubmit,
 }) => {
@@ -13,7 +12,6 @@ const BoardsList = ({
 				<BoardTile
                     key={board.id}
 					board={board}
-					handleBoardSelect={handleBoardSelect}
 					handleDeleteBoard={handleDeleteBoard}
 				/>
 			))}

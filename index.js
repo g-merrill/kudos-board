@@ -22,7 +22,6 @@ app.get("/", (req, res) => {
 
 // CREATE
 app.post("/boards", async (req, res) => {
-	console.log(req.body)
 	let { title, category, image, author } = req.body
 
 	if (!author) {
@@ -197,10 +196,11 @@ const logExistingData = async () => {
 	console.log(cards)
 }
 
-logExistingData()
+const clearExistingData = async () => {
+	await prisma.card.deleteMany()
+	await prisma.board.deleteMany()
+}
 
-// const clearExistingData = async () => {
-// 	await prisma.card.deleteMany()
-// 	await prisma.board.deleteMany()
-// }
+// logExistingData()
+
 // clearExistingData()

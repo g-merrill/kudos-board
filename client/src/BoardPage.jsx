@@ -35,53 +35,32 @@ const BoardPage = () => {
 		fetchFreshData()
 	}, [])
 
-	const handleSearchSubmit = () => {
-		console.log("handleSearchSubmit clicked")
-	}
-
-	const handleFilterSelect = (selectedFilter) => {
-		console.log("handleFilterSelect clicked for " + selectedFilter)
-		// filter boards for new filter
-		setFilterActive(selectedFilter)
-	}
-
-	const handleCardSelect = (card_id) => {
-		console.log("handleCardSelect clicked for card " + card_id)
-	}
-
 	const handleDeleteCard = async (card_id) => {
 		await fetch(`${import.meta.env.VITE_DB_URL}/cards/${card_id}`, {
 			method: "DELETE",
 		})
-		console.log("handleDeleteCard clicked for card " + card_id)
 		fetchFreshData()
 	}
 
 	const handleAddCardSubmit = async ({ message, gif, author }) => {
-		const res = await fetch(`${import.meta.env.VITE_DB_URL}/cards`, {
+		await fetch(`${import.meta.env.VITE_DB_URL}/cards`, {
 			method: "POST",
 			body: JSON.stringify({ message, boardId, gif, author }),
 			headers: {
 				"Content-Type": "application/json",
 			},
 		})
-		const data = await res.json()
-		console.log(data)
 		fetchFreshData()
 	}
 
 	const upvoteCard = async (cardId, upvotes) => {
-		console.log("upvoteCard clicked", upvotes)
-
-		const res = await fetch(`${import.meta.env.VITE_DB_URL}/cards/${cardId}`, {
+		await fetch(`${import.meta.env.VITE_DB_URL}/cards/${cardId}`, {
 			method: "PUT",
 			body: JSON.stringify({ upvotes }),
 			headers: {
 				"Content-Type": "application/json",
 			},
 		})
-		const data = await res.json()
-		console.log(data)
 		fetchFreshData()
 	}
 
@@ -108,7 +87,6 @@ const BoardPage = () => {
 			</div>
 			<CardsList
 				cards={cards}
-				handleCardSelect={handleCardSelect}
 				handleDeleteCard={handleDeleteCard}
 				handleAddCardSubmit={handleAddCardSubmit}
 				upvoteCard={upvoteCard}
